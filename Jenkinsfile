@@ -1,27 +1,51 @@
+
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = "demo-app"
+        IMAGE_TAG  = "${BUILD_NUMBER}"
+        CONTAINER  = "demo-app-${BUILD_NUMBER}"
+    }
+
     stages {
+
         stage('Checkout') {
             steps {
+                echo "Checking out source code"
                 checkout scm
             }
         }
 
-        stage('Build Image') {
+        stage('Build Docker Image') {
             steps {
-                sh 'docker build -t demo-app:${BUILD_NUMBER} .'
+                echo "Building Docker image"
+                sh '''
+                  docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+                '''
             }
         }
 
         stage('Run Container') {
             steps {
+                echo "Running Docker container"
                 sh '''
-                docker rm -f demo-app || true
-                docker run -d -p 8081:80 --name demo-app demo-app:${BUILD_NUMBER}
+                  docker rm -f demo-app || true
+                  docker run -d \
+                    -p 8081:80 \
+                    --name demo-app \
+                    ${IMAGE_NAME}:${IMAGE_TAG}
                 '''
             }
         }
     }
-}
 
+    post {
+        always {
+            echo "Pipeline finished for build ${BUILD_NUMBER}"
+        }
+        failure {
+            echo "Pipeline failed"
+        }
+    }
+}
