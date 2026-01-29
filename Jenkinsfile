@@ -39,6 +39,19 @@ pipeline {
             }
         }
     }
+<<<<<<< HEAD
+=======
+
+    post {
+        always {
+            echo "Pipeline finished for build ${BUILD_NUMBER}"
+        }
+        failure {
+            echo "Pipeline failed"
+        }
+    }
+}
+>>>>>>> c60ca25 (Add basic Jenkins pipeline)
 
     post {
         always {
