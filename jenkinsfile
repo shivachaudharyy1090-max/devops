@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Read Config & Create Users') {
+            steps {
+                sh '''
+                CONFIG_FILE="users.conf"
+
+                echo "Checking config file..."
+                if [ ! -f "$CONFIG_FILE" ]; then
+                    echo "users.conf not found!"
+                    exit 1
+                fi
+
+                while read USER; do
+                    if id "$USER" >/dev/null 2>&1; then
+                        echo "User $USER already exists"
+                    else
+                        echo "Creating user $USER"
+                        sudo useradd "$USER"
+                    fi
+                done < "$CONFIG_FILE"
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Users created successfully on Ubuntu server"
+        }
+    }
+}
+
