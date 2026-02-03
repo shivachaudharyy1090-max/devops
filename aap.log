@@ -1,0 +1,11 @@
+2026-02-01 10:00:01 INFO  Server started
+2026-02-01 10:01:12 INFO  User login success
+2026-02-01 10:02:45 WARN  Disk usage 80%
+2026-02-01 10:03:10 ERROR Database connection failed
+2026-02-01 10:04:22 INFO  Scheduled job started
+2026-02-01 10:05:33 ERROR Timeout while calling API
+2026-02-01 10:06:40 INFO  Job completed successfully
+2026-02-01 10:07:55 WARN  Memory usage high
+2026-02-01 10:08:18 ERROR Unable to write to disk
+2026-02-01 10:09:30 INFO  Server shutdown
+
